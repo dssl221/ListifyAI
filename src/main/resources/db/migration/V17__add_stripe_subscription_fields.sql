@@ -1,0 +1,4 @@
+ALTER TABLE users 
+ADD COLUMN billing_status VARCHAR(50),
+ADD COLUMN current_period_end TIMESTAMP WITH TIME ZONE,
+ADD COLUMN cancel_at_period_end BOOLEAN DEFAULT FALSE;

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32" fill="none">
+  <!-- Tag body -->
+  <path
+    d="M3 14.5L14.5 3H24C25.657 3 27 4.343 27 6V16.5L15.5 28C14.72 28.78 13.464 28.78 12.684 28L3.5 18.816C2.72 18.036 2.72 16.78 3 16.5V14.5Z"
+    fill="#7C5CFF"
+  />
+  <!-- Wing sweep -->
+  <path
+    d="M22 6C24 4 28.5 3.5 30 5C28 7 25 10 24 14C23.5 11 23 8.5 22 6Z"
+    fill="#A998FF"
+    opacity="0.85"
+  />
+  <!-- Tag hole -->
+  <circle cx="20.5" cy="10.5" r="2" fill="#0B1020" />
+</svg>

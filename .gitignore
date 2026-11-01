@@ -1,0 +1,47 @@
+# === Environment & Secrets ===
+.env
+.env.*
+!.env.example
+
+# === Java / Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# === Maven Wrapper (bundled binary) ===
+apache-maven-3.9.6/
+maven.zip
+
+# === Frontend ===
+listifyai-frontend/node_modules/
+listifyai-frontend/dist/
+listifyai-frontend/test-results/
+listifyai-frontend/tmp-playwright/
+listifyai-frontend/frontend-dev.log
+
+# === Debug / Dev screenshots ===
+listifyai-frontend/*.png
+
+# === Build output ===
+/out/
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Audit artifacts ===
+audit-file-inventory.txt
+backend-dev.log

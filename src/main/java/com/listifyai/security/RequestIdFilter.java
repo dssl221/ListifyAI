@@ -1,0 +1,58 @@
+package com.listifyai.security;
+
+import io.sentry.Sentry;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.MDC;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@SuppressWarnings({"null", "unchecked", "unused"})
+public class RequestIdFilter extends OncePerRequestFilter {
+
+    private static final String REQUEST_ID_HEADER = "X-Request-Id";
+    private static final String REQUEST_ID_MDC_KEY = "requestId";
+    private static final int MAX_REQUEST_ID_LENGTH = 128;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String requestId = request.getHeader(REQUEST_ID_HEADER);
+        if (!isValidRequestId(requestId)) {
+            requestId = UUID.randomUUID().toString();
+        }
+
+        MDC.put(REQUEST_ID_MDC_KEY, requestId);
+        response.setHeader(REQUEST_ID_HEADER, requestId);
+
+        // Enrich Sentry context
+        final String finalRequestId = requestId;
+        Sentry.configureScope(scope -> {
+            scope.setTag(REQUEST_ID_MDC_KEY, finalRequestId);
+        });
+
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            MDC.remove(REQUEST_ID_MDC_KEY);
+            // Sentry scope is typically bound to the thread, but it's good to be cautious. 
+            // In spring boot Sentry takes care of cleaning up the scope after the request.
+        }
+    }
+
+    private boolean isValidRequestId(String requestId) {
+        return requestId != null
+                && requestId.length() <= MAX_REQUEST_ID_LENGTH
+                && requestId.matches("[A-Za-z0-9._-]+");
+    }
+}

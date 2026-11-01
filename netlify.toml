@@ -1,0 +1,7 @@
+[build]
+  command = "npm --prefix listifyai-frontend ci && npm --prefix listifyai-frontend run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+  VITE_ENABLE_DEV_LOGIN = "false"

@@ -1,0 +1,3 @@
+ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS display_name VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS name_prompt_completed BOOLEAN NOT NULL DEFAULT true;
